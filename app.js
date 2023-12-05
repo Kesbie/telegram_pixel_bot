@@ -143,21 +143,34 @@ bot.onText(/\/del (.+)/, (msg, match) => {
 bot.onText(/\/share (.+)/, (msg, match) => {
     const chatId = msg.chat.id;
     const resp = match[1];
-    const values = [...resp.split(' ')]
+    let input = match["input"].toString();
+    input = input.replace(/\n/g, " ");
+    input = input.replace(/\/share /g, "");
 
-    values.map(value => {
-        FB.post(`/${pixels[currentBot].id}/shared_accounts`, {
-            account_id: value,
-            access_token: currentAC,
-            business: pixels[currentBot].bm,
-        })
-            .then((res) => {
-                bot.sendMessage(chatId, `Share oke cho ${value} rồi đấy`);
+    const values = [...input.split(" ")];
+
+    const promises = [];
+
+    values.map((value) => {
+        promises.push(
+            FB.post(`/${pixels[currentBot].id}/shared_accounts`, {
+                account_id: value,
+                access_token: currentAC,
+                business: pixels[currentBot].bm,
             })
-            .catch((err) => {
-                bot.sendMessage(chatId, `Đéo share được cho id: '${value}'`);
-            });
-    })
+                .then((res) => {
+                    bot.sendMessage(
+                        chatId,
+                        `Share oke cho id '${value}' rồi đấy`
+                    );
+                })
+                .catch((err) => {
+                    bot.sendMessage(chatId, `Share xịt cho id '${value}' nha`);
+                })
+        );
+    });
+
+    Promise.all(promises);
 });
 
 bot.onText(/\/token (.+)/, (msg, match) => {
