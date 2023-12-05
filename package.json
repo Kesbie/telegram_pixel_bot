@@ -1,0 +1,23 @@
+{
+    "name": "share_pixel",
+    "version": "1.0.0",
+    "description": "For sharing pixel easily",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon ./app.js",
+        "start": "node ./app.js"
+    },
+    "keywords": [
+        "pixel"
+    ],
+    "author": "kesbie",
+    "license": "ISC",
+    "dependencies": {},
+    "devDependencies": {
+        "nodemon": "^3.0.2",
+        "dotenv": "^16.3.1",
+        "facebook-js-sdk": "^0.3.4",
+        "fs": "0.0.1-security",
+        "node-telegram-bot-api": "^0.64.0"
+    }
+}
